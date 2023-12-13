@@ -9,25 +9,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"-->
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/topBarLayoutID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Save"
-                android:src="@drawable/baseline_save_24"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Export"
-                android:src="@drawable/baseline_browser_updated_24"/>
+            android:paddingHorizontal="10dp"
+            android:layout_alignParentTop="true">
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/topBarRightLayoutID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Save"
+                    android:src="@drawable/baseline_save_24"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Export"
+                    android:src="@drawable/baseline_browser_updated_24"/>
+            </LinearLayout>
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/midLayoutID"
             android:layout_width="match_parent"
@@ -55,55 +63,70 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="100" />
-            <LinearLayout
-                android:id="@+id/bottomControlBarLayoutID"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/timeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="10dp"
                     android:text="0.00:000\n1.00:000"/>
-                <ImageButton
-                    android:id="@+id/prevBtn"
+                <LinearLayout
+                    android:id="@+id/bottomControlBarLayoutID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Previous"
-                    android:src="@drawable/baseline_skip_previous_24"
-                    android:layout_marginLeft="30dp"
-                    />
-                <ImageButton
-                    android:id="@+id/playBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="Play"
-                    android:src="@drawable/baseline_play_arrow_24"
-                    />
-                <ImageButton
-                    android:id="@+id/nextBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="Next"
-                    android:src="@drawable/baseline_skip_next_24"
-                    />
+                    android:gravity="center_horizontal"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/prevBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Previous"
+                        android:src="@drawable/baseline_skip_previous_24"
+                        />
+                    <ImageButton
+                        android:id="@+id/playBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Play"
+                        android:src="@drawable/baseline_play_arrow_24"
+                        />
+                    <ImageButton
+                        android:id="@+id/nextBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Next"
+                        android:src="@drawable/baseline_skip_next_24"
+                        />
+                </LinearLayout>
 
-                <ImageButton
-                    android:layout_marginLeft="50dp"
+                <LinearLayout
+                    android:id="@+id/bottomUndoRedoBarLayoutID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Undo"
-                    android:src="@drawable/baseline_arrow_back_24"
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="Redo"
-                    android:src="@drawable/baseline_arrow_forward_24"
-                    />
+                    android:gravity="center_horizontal"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10dp"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Undo"
+                        android:src="@drawable/baseline_arrow_back_24"
+                        />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Redo"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        />
 
             </LinearLayout>
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,6 +288,11 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="Blur"
                     android:src="@drawable/baseline_blur_on_24" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="AI"
+                    android:src="@drawable/baseline_auto_awesome_24" />
 
             </LinearLayout>
             </HorizontalScrollView>
