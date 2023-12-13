@@ -1,9 +1,14 @@
 # OSSAVE : Open Source Simple Android Video Editor (in active development)
 
-The Idea is to create a simple pluggable video editor for android, at the same time, keeping it open source. 
-EASY to USE with AI ENABLED features
+The Idea is to create a simple pluggable video editor for android, at the same time, keeping it open source.
 
-- Flow
+## Principles
+* Keep It Simple
+* EASY 2 USE
+* ADVANCED features like AI ENABLED
+* Pluggable
+
+## Application Flow
   - Select videos/audios/images from Local Storage
   - Preview and Apply edit
     - Video
