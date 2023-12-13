@@ -53,4 +53,7 @@ The Idea is to create a simple pluggable video editor for android, at the same t
        - Resolution
        - Bitrate
 
-
+## Screenshots
+<p align="left">
+  <img src="./images/Screenshot_20231214_033218.jpg" width="250" title="Initial UI">
+</p>
