@@ -41,6 +41,10 @@ dependencies {
     implementation("androidx.media3:media3-effect:1.1.1")
     implementation("androidx.media3:media3-common:1.1.1")
 
+    //video operation like edit trim overlays filters
+    implementation("com.arthenica:ffmpeg-kit-full-gpl:6.0.LTS")
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
