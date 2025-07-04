@@ -1,6 +1,8 @@
 package tech.johnnn.ossave.editor;
 
 
+import android.graphics.Rect;
+
 import com.arthenica.ffmpegkit.FFmpegKit;
 import com.arthenica.ffmpegkit.ReturnCode;
 import com.arthenica.ffmpegkit.Session;
@@ -82,6 +84,44 @@ public class FFmpegKitOps {
 
         return rc;
     }
+
+
+    /**
+     *
+     * @param inputPath full path of input video file
+     * @param outputPath full path of output video file
+     * @param cropWidth cropping frame width
+     * @param cropHeight cropping frame height
+     * @param xOffset x coordinate of top left corner of cropping frame
+     * @param yOffset y coordinate of top left corner of cropping frame
+     * @return operation status i.e.  1: success, 0: failure, -1: otherwise
+     */
+    public int cropVideo(String inputPath, String outputPath, int cropWidth,int cropHeight,int xOffset,int yOffset){
+        Log.d(TAG,"in crop!");
+        int rc = -1;
+        String cropArea = cropWidth+":"+cropHeight+":"+xOffset+":"+yOffset;
+        String ffmpegCommand = String.format(Locale.ENGLISH,"-i %s -c:v libx264 -avoid_negative_ts make_zero -c:a aac -preset ultrafast -crf 23 -vf crop=%s -f mpegts %s",
+                inputPath,
+                cropArea,
+                outputPath
+        );
+
+        // Execute FFmpeg command synchronously
+        Session session = FFmpegKit.execute(ffmpegCommand);
+
+        ReturnCode returnCode = session.getReturnCode();
+        if (returnCode.isValueSuccess()) {
+            rc = 1;
+            Log.d(TAG,"crop successfully!");
+        } else if (returnCode.isValueError()) {
+            rc = 0;
+            Log.e(TAG,"Error copy cropping: " + session.getAllLogsAsString());
+        }
+
+        //System.gc();  // Optional: only if doing many ops back-to-back
+        return rc;
+    }
+
 
 
 }
