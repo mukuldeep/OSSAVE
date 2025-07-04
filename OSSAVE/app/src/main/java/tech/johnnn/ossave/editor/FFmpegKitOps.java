@@ -50,4 +50,38 @@ public class FFmpegKitOps {
     }
 
 
+    /**
+     *
+     * @param inputPath full path for input audio file
+     * @param outputPath full path for output audio file
+     * @param fromTs from time stamp of trimming logic
+     * @param toTs to time stamp of trimming logic
+     * @param totalDuration total duration in seconds of trimming logic
+     * @return
+     */
+    public int trimAudio(String inputPath, String outputPath, String fromTs, String toTs, String totalDuration){
+        Log.d(TAG,"copy trim audio called!");
+        int rc = -1;
+        Log.d(TAG,"copyTrimAudio from:"+fromTs+" totalDuration:"+totalDuration);
+        String ffmpegCommand = String.format(Locale.ENGLISH,
+                "-i %s -af \"atrim=start=%s:duration=%s\" -c:a pcm_s16le %s",
+                inputPath, fromTs, totalDuration, outputPath);
+
+        // Execute FFmpeg command synchronously
+        Session session = FFmpegKit.execute(ffmpegCommand);
+
+        // Check the return code for success or error
+        ReturnCode returnCode = session.getReturnCode();
+        if (returnCode.isValueSuccess()) {
+            rc = 1;
+            Log.d(TAG,"trimmed audio successfully!");
+        } else if (returnCode.isValueError()) {
+            rc = 0;
+            Log.e(TAG,"Error trimming audio: " + session.getAllLogsAsString());
+        }
+
+        return rc;
+    }
+
+
 }
