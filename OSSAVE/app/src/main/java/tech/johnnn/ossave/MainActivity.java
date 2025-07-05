@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import tech.johnnn.ossave.file.InternalFileHandler;
 import tech.johnnn.ossave.utils.PermissionHandler;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button openEditorButton;
+    InternalFileHandler ifh;
     public PermissionHandler permissionHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 launchVideoEditor();
             }
         });
+
+        ifh = new InternalFileHandler(this);
+        ifh.createRequiredSubDirectory();
+
     }
 
     public void launchVideoEditor(){

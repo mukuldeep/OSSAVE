@@ -1,20 +1,26 @@
 package tech.johnnn.ossave.editor;
 
 
+import android.content.Context;
 import android.graphics.Rect;
 
 import com.arthenica.ffmpegkit.FFmpegKit;
 import com.arthenica.ffmpegkit.ReturnCode;
 import com.arthenica.ffmpegkit.Session;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import tech.johnnn.ossave.Log.Log;
+import tech.johnnn.ossave.file.InternalFileHandler;
 
 public class FFmpegKitOps {
     private static String TAG = "FFmpegKitOps";
+    InternalFileHandler ifh;
 
-    public FFmpegKitOps(){}
+    public FFmpegKitOps(Context context){
+        ifh = new InternalFileHandler(context);
+    }
 
     /**
      *
@@ -119,6 +125,46 @@ public class FFmpegKitOps {
         }
 
         //System.gc();  // Optional: only if doing many ops back-to-back
+        return rc;
+    }
+
+
+    /**
+     * Concats all the video as per index in the list
+     * @param projectFolderName project folder where a text file to be created
+     * @param videoFilePaths list of all video file full paths
+     * @param outputPath full path of the output video
+     * @return success or error code
+     */
+    public int concatVideos(String projectFolderName, ArrayList<String> videoFilePaths, String outputPath){
+        Log.d(TAG,"concat called!");
+        int rc = -1;
+
+        String video_txt_content="";
+        for (String videoFilePath : videoFilePaths){
+            video_txt_content += "file '"+videoFilePath+"'\n";
+        }
+
+        ifh.createSubdirectoryInInternalStorage(ifh.DIR_PROJECT,projectFolderName);
+        ifh.writeToFile(ifh.DIR_PROJECT+"/"+projectFolderName,"videos.txt", video_txt_content);
+
+        String videos_file_path = ifh.getInternalDirPath()+"/"+ifh.DIR_PROJECT+"/"+projectFolderName+"/videos.txt";
+
+        String ffmpegCommand = String.format(Locale.ENGLISH,"-f concat -safe 0 -i %s -c:v libx264 -c:a aac -avoid_negative_ts make_zero -preset ultrafast %s", videos_file_path, outputPath);
+
+        // Execute FFmpeg command synchronously
+        Session session = FFmpegKit.execute(ffmpegCommand);
+
+        // Check the return code for success or error
+        ReturnCode returnCode = session.getReturnCode();
+        if (returnCode.isValueSuccess()) {
+            rc = 1;
+            Log.d(TAG,"concat successful!");
+        } else if (returnCode.isValueError()) {
+            rc = 0;
+            Log.e(TAG,"Error concat: " + session.getAllLogsAsString());
+        }
+
         return rc;
     }
 
