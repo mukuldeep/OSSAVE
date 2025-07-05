@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import tech.johnnn.ossave.db.DBinitializer;
 import tech.johnnn.ossave.file.InternalFileHandler;
 import tech.johnnn.ossave.utils.PermissionHandler;
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         ifh = new InternalFileHandler(this);
         ifh.createRequiredSubDirectory();
+
+        new DBinitializer(this);
 
     }
 
