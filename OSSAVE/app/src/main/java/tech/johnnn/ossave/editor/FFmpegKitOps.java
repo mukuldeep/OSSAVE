@@ -169,5 +169,39 @@ public class FFmpegKitOps {
     }
 
 
+    /**
+     * Replaces video audio track with given audio
+     * @param videoFilePath full path of input video
+     * @param backgroundAudioPath full path of input audio
+     * @param outputVideoPath full path for output video
+     * @return success or error code
+     */
+    public int addBackgroundAudio(String videoFilePath, String backgroundAudioPath,String outputVideoPath){
+        Log.d(TAG,"adding bg audio!");
+        int rc = -1;
+
+        String ffmpegCommand = String.format(
+                "-i %s -i %s -map 0:v:0 -map 1:a:0 -c:v libx264 -preset ultrafast -c:a aac -b:a 192k %s",
+                videoFilePath, backgroundAudioPath, outputVideoPath
+        );
+
+        // Execute FFmpeg command synchronously
+        Session session = FFmpegKit.execute(ffmpegCommand);
+
+        // Check the return code for success or error
+        ReturnCode returnCode = session.getReturnCode();
+        if (returnCode.isValueSuccess()) {
+            rc = 1;
+            Log.d(TAG,"bg add successful!");
+        } else if (returnCode.isValueError()) {
+            rc = 0;
+            Log.e(TAG,"Error while adding bg music: " + session.getAllLogsAsString());
+        }
+
+        return rc;
+
+    }
+
+
 
 }
