@@ -1,5 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="my_dark_primary">#FF000000</color>
+    <color name="my_light_primary">#FFFFFFFF</color>
+
+
+    <color name="black_tr_10">#10000000</color>
+    <color name="black_tr_20">#20000000</color>
+    <color name="black_tr_30">#30000000</color>
+    <color name="black_tr_40">#40000000</color>
+    <color name="black_tr_50">#50000000</color>
+    <color name="black_tr_60">#60000000</color>
+    <color name="black_tr_70">#70000000</color>
+    <color name="black_tr_80">#80000000</color>
+    <color name="black_tr_90">#90000000</color>
+    <color name="black_tr_a0">#a0000000</color>
+    <color name="black_tr_b0">#b0000000</color>
+    <color name="black_tr_c0">#c0000000</color>
+    <color name="black_tr_d0">#d0000000</color>
+    <color name="black_tr_e0">#e0000000</color>
+
+
+    <color name="gray_fe">#FFFEFEFE</color>
+    <color name="gray_f8">#FFF8F8F8</color>
+    <color name="gray_e">#FFEEEEEE</color>
+    <color name="gray_d">#FFDDDDDD</color>
+    <color name="gray_c">#FFCCCCCC</color>
+    <color name="gray_b">#FFBBBBBB</color>
+    <color name="gray_a">#FFAAAAAA</color>
+    <color name="gray_9">#FF999999</color>
+    <color name="gray_8">#FF888888</color>
+    <color name="gray_7">#FF777777</color>
+    <color name="gray_6">#FF666666</color>
+    <color name="gray_5">#FF555555</color>
+    <color name="gray_4">#FF444444</color>
+    <color name="gray_3">#FF333333</color>
+    <color name="gray_2">#FF222222</color>
+    <color name="gray_1">#FF111111</color>
+
+    <color name="light_blue_eb">#FFEBF1FA</color>
+    <color name="light_blue_f7">#FFF7FAFF</color>
+
+    <color name="gray_bluish">#e6e9ed</color>
+
+    <color name="gx_blue">#4285F4</color>
+    <color name="gx_red">#DB4437</color>
+    <color name="gx_yellow">#F4B400</color>
+    <color name="gx_green">#0F9D58</color>
+
+    <color name="gx_blue_l_0">#5390F5 </color>
+    <color name="gx_blue_l_1">#649BF6 </color>
+    <color name="gx_blue_l_2">#76A6F7 </color>
+    <color name="gx_blue_l_3">#87B1F8 </color>
+    <color name="gx_blue_l_4">#98BCF9 </color>
+    <color name="gx_blue_l_5">#A9C8FA </color>
+    <color name="gx_blue_l_6">#BAD3FB </color>
+    <color name="gx_blue_l_7">#CBDEFC </color>
+    <color name="gx_blue_l_8">#DDE9FD </color>
+    <color name="gx_blue_l_9">#EEF4FE </color>
+
+    <color name="gx_blue_d_0">#3C79DE </color>
+    <color name="gx_blue_d_1">#366DC8 </color>
+    <color name="gx_blue_d_2">#3061B1 </color>
+    <color name="gx_blue_d_3">#2A559B </color>
+    <color name="gx_blue_d_4">#244985 </color>
+    <color name="gx_blue_d_5">#1E3C6F </color>
+    <color name="gx_blue_d_6">#183059 </color>
+    <color name="gx_blue_d_7">#122443 </color>
+    <color name="gx_blue_d_8">#0C182C </color>
+    <color name="gx_blue_d_9">#060C16 </color>
+
+
+    <color name="gx_red_l_0">#DE5549  </color>
+    <color name="gx_red_l_1">#E2665B </color>
+    <color name="gx_red_l_2">#E5776E </color>
+    <color name="gx_red_l_3">#E88880 </color>
+    <color name="gx_red_l_4">#EB9992 </color>
+    <color name="gx_red_l_5">#EFAAA4 </color>
+    <color name="gx_red_l_6">#F2BBB6 </color>
+    <color name="gx_red_l_7">#F5CCC8 </color>
+    <color name="gx_red_l_8">#F8DDDB </color>
+    <color name="gx_red_l_9">#FCEEED </color>
+
+    <color name="gx_red_d_0">#C73E32  </color>
+    <color name="gx_red_d_1">#B3382D </color>
+    <color name="gx_red_d_2">#9F3128 </color>
+    <color name="gx_red_d_3">#8B2B23 </color>
+    <color name="gx_red_d_4">#77251E </color>
+    <color name="gx_red_d_5">#641F19 </color>
+    <color name="gx_red_d_6">#501914 </color>
+    <color name="gx_red_d_7">#3C130F </color>
+    <color name="gx_red_d_8">#280C0A </color>
+    <color name="gx_red_d_9">#140605 </color>
+
+    <color name="gx_yellow_l_0">#F5BB17  </color>
+    <color name="gx_yellow_l_1">#F6C22E </color>
+    <color name="gx_yellow_l_2">#F7C846 </color>
+    <color name="gx_yellow_l_3">#F8CF5D </color>
+    <color name="gx_yellow_l_4">#F9D674 </color>
+    <color name="gx_yellow_l_5">#FADD8B </color>
+    <color name="gx_yellow_l_6">#FBE4A2 </color>
+    <color name="gx_yellow_l_7">#FCEBB9 </color>
+    <color name="gx_yellow_l_8">#FDF1D1 </color>
+    <color name="gx_yellow_l_9">#FEF8E8 </color>
+
+    <color name="gx_yellow_d_0">#DEA400  </color>
+    <color name="gx_yellow_d_1">#C89300 </color>
+    <color name="gx_yellow_d_2">#B18300 </color>
+    <color name="gx_yellow_d_3">#9B7300 </color>
+    <color name="gx_yellow_d_4">#856200 </color>
+    <color name="gx_yellow_d_5">#6F5200 </color>
+    <color name="gx_yellow_d_6">#594100 </color>
+    <color name="gx_yellow_d_7">#433100 </color>
+    <color name="gx_yellow_d_8">#2C2100 </color>
+    <color name="gx_yellow_d_9">#161000 </color>
+
+    <color name="gx_green_l_0">#25A667 </color>
+    <color name="gx_green_l_1">#3BAF76 </color>
+    <color name="gx_green_l_2">#50B886 </color>
+    <color name="gx_green_l_3">#66C195 </color>
+    <color name="gx_green_l_4">#7CCAA4 </color>
+    <color name="gx_green_l_5">#92D2B3 </color>
+    <color name="gx_green_l_6">#A8DBC2 </color>
+    <color name="gx_green_l_7">#BEE4D1 </color>
+    <color name="gx_green_l_8">#D3EDE1 </color>
+    <color name="gx_green_l_9">#E9F6F0 </color>
+
+    <color name="gx_green_d_0">#0E8F50 </color>
+    <color name="gx_green_d_1">#0C8048 </color>
+    <color name="gx_green_d_2">#0B7240 </color>
+    <color name="gx_green_d_3">#0A6438 </color>
+    <color name="gx_green_d_4">#085630 </color>
+    <color name="gx_green_d_5">#074728 </color>
+    <color name="gx_green_d_6">#053920 </color>
+    <color name="gx_green_d_7">#042B18 </color>
+    <color name="gx_green_d_8">#031D10 </color>
+    <color name="gx_green_d_9">#010E08 </color>
+
+
 </resources>
