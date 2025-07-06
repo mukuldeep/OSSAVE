@@ -2,6 +2,7 @@ package tech.johnnn.ossave;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +17,7 @@ import tech.johnnn.ossave.utils.PermissionHandler;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button openEditorButton;
+    private CardView openEditorButton;
     InternalFileHandler ifh;
     public PermissionHandler permissionHandler;
     @Override
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init_after_permission(){
-        openEditorButton = findViewById(R.id.openEditorButtonID);
+        openEditorButton = findViewById(R.id.nav_top_sample_btn);
         openEditorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

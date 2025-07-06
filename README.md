@@ -1,4 +1,4 @@
-# OSSAVE : Open Source Simple Android Video Editor (in active development)
+# <img src="https://raw.githubusercontent.com/mukuldeep/OSSAVE/refs/heads/main/OSSAVE/app/src/main/ic_launcher-playstore.png" width="25" title="logo"> OSSAVE : Open Source Simple Android Video Editor (in active development)
 
 The Idea is to create a simple pluggable video editor for android, at the same time, keeping it open source.
 

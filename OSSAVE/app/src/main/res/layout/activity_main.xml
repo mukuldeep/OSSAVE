@@ -42,15 +42,16 @@
             android:textColor="@color/gray_9"
             android:layout_marginEnd="20sp"
             android:layout_marginStart="5sp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginVertical="5dp"
             android:layout_below="@+id/OssaveTopAppName"
-            android:layout_toRightOf="@+id/ossaveTopAppLogo"/>
+            android:layout_toEndOf="@+id/ossaveTopAppLogo"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView

@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".VideoEditActivity">
-    <!--LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"-->
 
         <RelativeLayout
             android:id="@+id/topBarLayoutID"
@@ -36,6 +32,7 @@
                     android:src="@drawable/baseline_browser_updated_24"/>
             </LinearLayout>
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/midLayoutID"
             android:layout_width="match_parent"
@@ -52,6 +49,7 @@
 
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/bottomBarLayoutID"
             android:layout_width="match_parent"
@@ -298,7 +296,4 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-
-
-    <!--/LinearLayout-->
 </RelativeLayout>
