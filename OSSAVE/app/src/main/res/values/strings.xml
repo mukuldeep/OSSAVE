@@ -2,4 +2,26 @@
     <string name="app_name">OSSAVE</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <!-- Time Util -->
+    <string name="time_now"> Now </string>
+
+    <string name="time_secs_ago"> Seconds Ago </string>
+    <string name="time_mins_ago"> Minutes Ago </string>
+    <string name="time_hrs_ago"> Hours Ago </string>
+    <string name="time_days_ago"> Days Ago </string>
+    <string name="time_weeks_ago"> Weeks Ago </string>
+    <string name="time_months_ago"> Months Ago </string>
+    <string name="time_years_ago"> Years Ago </string>
+
+    <string name="time_sec_ago"> Second Ago </string>
+    <string name="time_min_ago"> Minute Ago </string>
+    <string name="time_hr_ago"> Hour Ago </string>
+    <string name="time_day_ago"> Day Ago </string>
+    <string name="time_week_ago"> Week Ago </string>
+    <string name="time_month_ago"> Month Ago </string>
+    <string name="time_year_ago"> Year Ago </string>
+
 </resources>

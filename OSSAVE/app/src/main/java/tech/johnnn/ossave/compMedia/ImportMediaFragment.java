@@ -1,23 +1,52 @@
 package tech.johnnn.ossave.compMedia;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import tech.johnnn.ossave.Log.Log;
 import tech.johnnn.ossave.R;
+import tech.johnnn.ossave.compMedia.data.VideoMetaData;
+import tech.johnnn.ossave.file.FileUtils;
+import tech.johnnn.ossave.file.InternalFileHandler;
+import tech.johnnn.ossave.utils.RandomNumberGenerator;
 
 
 public class ImportMediaFragment extends Fragment {
+    private static String TAG = "ImportMediaFragment";
 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+
+    Context context;
+    InternalFileHandler ifh;
+    LinearLayout mediaScrollLinView, mediaTagLinLay;
+
+
+    ActivityResultLauncher<Intent> activityResultLauncherPickVideo;
+
 
     public ImportMediaFragment() {
         // Required empty public constructor
@@ -44,9 +73,156 @@ public class ImportMediaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_import_media, container, false);
+        View v = inflater.inflate(R.layout.fragment_import_media, container, false);
+        context = v.getContext();
+        mediaScrollLinView = v.findViewById(R.id.mediaScrollView);
+        mediaTagLinLay = v.findViewById(R.id.mediaCompTagLinLay);
 
-
-        return view;
+        ifh = new InternalFileHandler(context);
+        registerActivityResult();
+        initMediaView();
+        return v;
     }
+
+    private void initMediaView(){
+
+        mediaTagLinLay.removeAllViews();
+
+        //add new video
+        View addNewView = LayoutInflater.from(context).inflate(R.layout.tag_button, mediaTagLinLay, false);
+        CardView addNewCard = addNewView.findViewById(R.id.btnCard);
+        TextView addNewText = addNewView.findViewById(R.id.btnText);
+        addNewText.setText(" Add new video ");
+        addNewCard.setCardBackgroundColor(context.getColor(R.color.gx_blue_l_5));
+        addNewCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewVideo();
+            }
+        });
+        mediaTagLinLay.addView(addNewView);
+
+        //media scroll views
+        //initialize_media_scroll_view("");
+
+    }
+
+    private void addNewVideo(){
+        Log.d(TAG,"add new video");
+        selectVideoClickFunctionality();
+    }
+
+    /**
+     * Video selection functionality
+     */
+    private void selectVideoClickFunctionality(){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("video/*");
+        activityResultLauncherPickVideo.launch(intent);
+    }
+
+    private void saveVideoInBG(Intent data){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            String videoId = "";
+            VideoMetaData videoMetaData4id = new VideoMetaData();
+            try {
+                if (data != null) {
+                    Uri videoUri = data.getData();
+                    int isSaveSuccess = saveSelectedFile(videoUri,videoMetaData4id);
+                    Log.d(TAG, "isSaveSuccess:" + isSaveSuccess);
+
+                    if (isSaveSuccess == 1) {
+                        // Post back to the UI thread
+                        handler.post(() -> {
+                            Toast.makeText(context, "Video saved ", Toast.LENGTH_LONG).show();
+                            initMediaView();
+                        });
+                    }
+//                    else {
+//                                clearEditorUI();
+//                                showHideBottomMenu(false);
+//                                hideLoadingBar();
+//                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                handler.post(() ->
+                        Toast.makeText(context, "Failed to save video", Toast.LENGTH_SHORT).show()
+                );
+            }
+
+
+//            handler.post(() -> {
+//                //handleLiveProcessingWindow(-1);
+//                Log.d(TAG,"videoId = "+videoMetaData4id.getVideoId());
+//                //start video tagging process
+//                if (!videoMetaData4id.getVideoId().equals("")) {
+//                    //startVideoPreProcess(videoMetaData4id.getVideoId());
+//                }
+//            });
+
+        });
+
+
+    }
+
+    private int saveSelectedFile(Uri videoUri, VideoMetaData videoIdOut){
+        if (videoUri != null) {
+            String videoFileName = "vid"+ RandomNumberGenerator.generateSecureRandomInt()+".mp4";
+            videoIdOut.setVideoId( videoFileName);
+            if (FileUtils.saveFileFromUriToInternalStorage(context, videoUri, ifh.DIR_VIDEO, videoFileName)) {
+                Log.d(TAG, "The video file saved "+videoFileName);
+//                if(!extractMetaData(videoFileName)){
+//                    Log.d(TAG, "The video is Invalid! Some Error occured "+videoFileName);
+//                    Toast.makeText(context,"error_try_different_video",Toast.LENGTH_SHORT).show();
+//                    //deleteSelectedFile();
+//                    return 0;
+//                }
+//
+//                String vid_desc = "video_"+ TimeUtil.timestampToLocalTime(TimeUtil.getTimeStampMillis(),"yyyy-MM-dd HH:mm:ss");
+//                //Save to database
+//                VideoDBShim videoDBShim = new VideoDBShim(context);
+//                videoDBShim.addNewVideoOnSelect(videoFileName,vid_desc);
+
+                //detect video scene change
+                //FFmpegKitOps fFmpegKitOps = new FFmpegKitOps(context);
+                //fFmpegKitOps.detectSceneChange(ifh.getInternalDirPath()+"/"+ifh.DIR_VIDEO+"/"+videoFileName,0.4);
+                //InitialVideoResizer.resizeToTarget(context,ifh.getInternalDirPath()+"/"+ifh.DIR_VIDEO+"/"+videoFileName, videoMetaData.getVideoWidthStr(), videoMetaData.getVideoHeightStr());
+
+                return 1;
+            } else {// Error occurred while saving the video.
+                Log.e(TAG, "error while saving the video");
+            }
+        }
+        return 0;
+    }
+
+
+
+    private void registerActivityResult() {
+        activityResultLauncherPickVideo = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Handle the result here
+                        Intent data = result.getData();
+                        Log.d(TAG,"success");
+                        //handleLiveProcessingWindow(1);
+                        saveVideoInBG(data);
+                    }else{
+                        //hideLoadingBar();
+
+                    }
+                });
+    }
+
+
+
+
+
 }
