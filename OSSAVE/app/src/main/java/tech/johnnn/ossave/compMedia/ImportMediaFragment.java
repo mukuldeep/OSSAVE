@@ -16,19 +16,25 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import tech.johnnn.ossave.Log.Log;
 import tech.johnnn.ossave.R;
 import tech.johnnn.ossave.compMedia.data.VideoMetaData;
+import tech.johnnn.ossave.db.videoDB.VideoDBShim;
 import tech.johnnn.ossave.file.FileUtils;
 import tech.johnnn.ossave.file.InternalFileHandler;
 import tech.johnnn.ossave.utils.RandomNumberGenerator;
+import tech.johnnn.ossave.utils.ThumbnailFFmpeg;
+import tech.johnnn.ossave.utils.TimeUtil;
 
 
 public class ImportMediaFragment extends Fragment {
@@ -43,6 +49,7 @@ public class ImportMediaFragment extends Fragment {
     Context context;
     InternalFileHandler ifh;
     LinearLayout mediaScrollLinView, mediaTagLinLay;
+    VideoDBShim videoDBShim;
 
 
     ActivityResultLauncher<Intent> activityResultLauncherPickVideo;
@@ -79,6 +86,7 @@ public class ImportMediaFragment extends Fragment {
         mediaTagLinLay = v.findViewById(R.id.mediaCompTagLinLay);
 
         ifh = new InternalFileHandler(context);
+        videoDBShim = new VideoDBShim(context);
         registerActivityResult();
         initMediaView();
         return v;
@@ -92,7 +100,7 @@ public class ImportMediaFragment extends Fragment {
         View addNewView = LayoutInflater.from(context).inflate(R.layout.tag_button, mediaTagLinLay, false);
         CardView addNewCard = addNewView.findViewById(R.id.btnCard);
         TextView addNewText = addNewView.findViewById(R.id.btnText);
-        addNewText.setText(" Add new video ");
+        addNewText.setText(" import video ");
         addNewCard.setCardBackgroundColor(context.getColor(R.color.gx_blue_l_5));
         addNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +111,7 @@ public class ImportMediaFragment extends Fragment {
         mediaTagLinLay.addView(addNewView);
 
         //media scroll views
-        //initialize_media_scroll_view("");
+        initialize_media_scroll_view();
 
     }
 
@@ -183,10 +191,10 @@ public class ImportMediaFragment extends Fragment {
 //                    return 0;
 //                }
 //
-//                String vid_desc = "video_"+ TimeUtil.timestampToLocalTime(TimeUtil.getTimeStampMillis(),"yyyy-MM-dd HH:mm:ss");
-//                //Save to database
-//                VideoDBShim videoDBShim = new VideoDBShim(context);
-//                videoDBShim.addNewVideoOnSelect(videoFileName,vid_desc);
+                String vid_desc = "video_"+ TimeUtil.timestampToLocalTime(TimeUtil.getTimeStampMillis(),"yyyy-MM-dd HH:mm:ss");
+                //Save to database
+                VideoDBShim videoDBShim = new VideoDBShim(context);
+                videoDBShim.addNewVideoOnSelect(videoFileName,vid_desc);
 
                 //detect video scene change
                 //FFmpegKitOps fFmpegKitOps = new FFmpegKitOps(context);
@@ -199,6 +207,80 @@ public class ImportMediaFragment extends Fragment {
             }
         }
         return 0;
+    }
+
+
+    public void initialize_media_scroll_view(){
+        ArrayList<String> videoIds;
+        videoIds = videoDBShim.getAllVideosSortBySelectionTime();
+
+        mediaScrollLinView.removeAllViews();
+
+        //load selected video from db
+        for(String videoId: videoIds){
+            Log.d(TAG,"videoId:"+videoId);
+            View newVideoView = LayoutInflater.from(context).inflate(R.layout.item_video_scroll, mediaScrollLinView, false);
+            TextView videoTitle = newVideoView.findViewById(R.id.videoItemScrollText);
+            videoTitle.setText(videoId);
+
+            ImageView thumbImg = newVideoView.findViewById(R.id.videoScrollItemThumb);
+            if (ifh.isExists(ifh.DIR_THUMBS, videoId + "_thumb.jpg")) {
+                Uri thumbUri = Uri.fromFile(new File(ifh.internalStorageDir.getAbsolutePath() + "/" + ifh.DIR_THUMBS + "/" + videoId + "_thumb.jpg"));
+                thumbImg.setImageURI(thumbUri);
+            } else {
+                ThumbnailFFmpeg thumbnailFFmpeg = new ThumbnailFFmpeg();
+                thumbnailFFmpeg.setThumbnail(ifh, thumbImg, ifh.DIR_VIDEO, videoId);
+            }
+
+            // state buttons
+            String tagModel = videoDBShim.getTagModel(videoId);
+            TextView btnTxt = newVideoView.findViewById(R.id.videoItemBtnTxt);
+            //videoDBShim.updateTagModel(videoId,"[]");
+
+            if(tagModel.equals("") || tagModel.equals("{}")) {
+                ImageView startProcessBtn = newVideoView.findViewById(R.id.itemVideoRightBtnProcess);
+                btnTxt.setText("Start Process");
+                startProcessBtn.setVisibility(View.VISIBLE);
+                startProcessBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"Feature under development",Toast.LENGTH_SHORT).show();
+//                        startVideoPreProcess(videoId);
+//                        extractFrames(videoId);
+//                        videoDBShim.updateTagModel(videoId,"{\"status\":\"processing\"}");
+//                        init_video_views();
+                    }
+                });
+            }else if(tagModel.equals("{\"status\":\"processing\"}")){
+                ImageView processingBtn = newVideoView.findViewById(R.id.itemVideoRightBtnProcessing);
+                btnTxt.setText("Processing");
+                processingBtn.setVisibility(View.VISIBLE);
+            }else{
+                ImageView processDoneBtn = newVideoView.findViewById(R.id.itemVideoRightBtnReady);
+                btnTxt.setText("All Done");
+                processDoneBtn.setVisibility(View.VISIBLE);
+            }
+
+            newVideoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Feature under development",Toast.LENGTH_SHORT).show();
+//                    createVideoDialog(videoId,ifh.getInternalDirPath()+"/"+ifh.DIR_VIDEO+"/"+videoId);
+                }
+            });
+
+            //delete button
+            ImageView deleteBtn = newVideoView.findViewById(R.id.itemVideoDeleteBtn);
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Feature under development",Toast.LENGTH_SHORT).show();
+//                    deleteAVideo(videoId);
+                }
+            });
+
+            mediaScrollLinView.addView(newVideoView);
+        }
     }
 
 
@@ -220,8 +302,6 @@ public class ImportMediaFragment extends Fragment {
                     }
                 });
     }
-
-
 
 
 
