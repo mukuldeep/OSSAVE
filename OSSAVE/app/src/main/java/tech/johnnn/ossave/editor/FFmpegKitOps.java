@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import tech.johnnn.ossave.Log.Log;
 import tech.johnnn.ossave.file.InternalFileHandler;
+import tech.johnnn.ossave.utils.AssetUtils;
 
 public class FFmpegKitOps {
     private static String TAG = "FFmpegKitOps";
@@ -200,6 +201,42 @@ public class FFmpegKitOps {
 
         return rc;
 
+    }
+
+    /**
+     *
+     * @param context 
+     * @param inputPath input video full path
+     * @param outputPath output video full path
+     * @return
+     */
+    public int addWaterMark(Context context, String inputPath, String outputPath){
+        Log.d(TAG,"add watermark called!");
+        int rc = -1;
+
+        //prepare watermark
+        AssetUtils.copyAssetToInternalStorage(context, "sample_watermark.png");
+        String watermarkPath = ifh.getInternalDirPath()+"/sample_watermark.png";
+
+
+        String ffmpegCommand = String.format(Locale.ENGLISH,
+                "-i %s -i %s -filter_complex \"[1][0]scale2ref=w=iw*0.15:h=ow/mdar[logo][video];[video][logo]overlay=(main_w-overlay_w)/2:main_h*0.9-overlay_h/2\" -c:v libx264 -c:a copy -preset ultrafast %s",
+                inputPath, watermarkPath, outputPath);
+
+        // Execute FFmpeg command synchronously
+        Session session = FFmpegKit.execute(ffmpegCommand);
+
+        // Check the return code for success or error
+        ReturnCode returnCode = session.getReturnCode();
+        if (returnCode.isValueSuccess()) {
+            rc = 1;
+            Log.d(TAG,"watermarked successfully!");
+        } else if (returnCode.isValueError()) {
+            rc = 0;
+            Log.e(TAG,"Error concat: " + session.getAllLogsAsString());
+        }
+
+        return rc;
     }
 
 
