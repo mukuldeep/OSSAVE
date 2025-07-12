@@ -274,8 +274,7 @@ public class ImportMediaFragment extends Fragment {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"Feature under development",Toast.LENGTH_SHORT).show();
-//                    deleteAVideo(videoId);
+                    deleteAVideo(videoId);
                 }
             });
 
@@ -283,6 +282,22 @@ public class ImportMediaFragment extends Fragment {
         }
     }
 
+    public boolean deleteAVideo(String videoID){
+
+        //delete from DB
+        boolean isDelDB = videoDBShim.deleteAVideo(videoID);
+
+        //delete from FS
+        boolean isDelFS = ifh.deleteFile(ifh.DIR_VIDEO,videoID);
+        boolean isDelFSFrames = ifh.deleteFolder(ifh.getInternalDirPath()+"/"+ifh.DIR_VIDEO_TEMP+"/"+videoID+"_frames");
+        boolean isDelFSThumb = ifh.deleteFile(ifh.getInternalDirPath()+"/"+ifh.DIR_THUMBS+"/"+videoID+"_thumb.jpg");
+
+        Log.d(TAG,"deleting audio. ID: "+videoID+" isDbDel:"+isDelDB+" isFsDel:"+isDelFS+" isDelFSFrames:"+isDelFSFrames+" isDelFSThumb:"+isDelFSThumb);
+
+        initMediaView();
+
+        return isDelDB & isDelFS;
+    }
 
 
     private void registerActivityResult() {
