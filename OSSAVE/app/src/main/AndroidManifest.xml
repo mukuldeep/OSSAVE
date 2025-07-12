@@ -21,10 +21,6 @@
         android:theme="@style/Theme.OSSAVE"
         tools:targetApi="31">
         <activity
-            android:name=".VideoEditActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

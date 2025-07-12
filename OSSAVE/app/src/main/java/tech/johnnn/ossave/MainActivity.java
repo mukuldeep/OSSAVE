@@ -57,13 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init_after_permission(){
-        openEditorButton = findViewById(R.id.nav_top_sample_btn);
-        openEditorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchVideoEditor();
-            }
-        });
+
 
         ifh = new InternalFileHandler(this);
         ifh.createRequiredSubDirectory();
@@ -81,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void launchVideoEditor(){
-        Intent videoEditorOpenIntent = new Intent(MainActivity.this, VideoEditActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        MainActivity.this.startActivity(videoEditorOpenIntent);
-    }
 
     private void handle_nav_btn_click(){
         importMediaNavBtn.setOnClickListener(new View.OnClickListener() {
